@@ -6,7 +6,7 @@ function UploadImage() {
     <div className="space-y-5">
       <div className="bg-primary-gradient-reverse rounded-lg h-52 p-0.5 outline-5 -outline-offset-3 outline-dashed outline-primary-bg">
         <div className="bg-primary-bg rounded-md h-full w-full p-5 flex flex-col justify-center items-center gap-5">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center space-y-1">
             <img src={uploadIcon} alt="Upload" />
             <div>Upload image here</div>
           </div>

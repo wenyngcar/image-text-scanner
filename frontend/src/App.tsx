@@ -6,7 +6,7 @@ import UploadImage from "./components/UploadImage"
 function App() {
 
   return (
-    <div className="container p-5 space-y-10">
+    <div className="container p-5 space-y-20">
       <Header />
       <UploadImage />
       <TranslatedText />
