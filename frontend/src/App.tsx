@@ -1,9 +1,11 @@
+import Header from "./components/Header"
+
 function App() {
 
   return (
-    <>
-      <div><span className="text-xl text-primary-gradient">test</span></div>
-    </>
+    <div className="container p-5">
+      <Header />
+    </div>
   )
 }
 
