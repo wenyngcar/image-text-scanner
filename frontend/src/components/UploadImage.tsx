@@ -1,5 +1,5 @@
-import uploadIcon from "../assets/icons/upload-primary.svg"
-import { Button } from "./ui/button"
+import uploadIcon from "../assets/icons/upload-primary.svg";
+import { Button } from "./ui/button";
 
 function UploadImage() {
   return (
@@ -10,15 +10,21 @@ function UploadImage() {
             <img src={uploadIcon} alt="Upload" />
             <div>Upload image here</div>
           </div>
-          <Button size={"lg"} className="w-full text-lg">Upload Image</Button>
+          <Button size={"lg"} className="w-full text-lg">
+            Upload Image
+          </Button>
         </div>
       </div>
       <div className="flex flex-col space-y-4">
-        <Button size={"lg"} className="text-lg">Translate Text</Button>
-        <Button size={"lg"} className="text-lg">Reset</Button>
+        <Button size={"lg"} className="text-lg">
+          Translate Text
+        </Button>
+        <Button size={"lg"} className="text-lg">
+          Reset
+        </Button>
       </div>
     </div>
-  )
+  );
 }
 
-export default UploadImage
+export default UploadImage;

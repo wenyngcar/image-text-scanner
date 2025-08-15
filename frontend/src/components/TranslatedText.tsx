@@ -6,7 +6,7 @@ function TranslatedText() {
         <div>Text will display here. </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default TranslatedText
+export default TranslatedText;
