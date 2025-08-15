@@ -1,10 +1,17 @@
-function App() {
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import TranslatedText from "./components/TranslatedText";
+import UploadImage from "./components/UploadImage";
 
+function App() {
   return (
-    <>
-      <div><span className="text-xl text-primary-gradient">test</span></div>
-    </>
-  )
+    <div className="container p-5 space-y-20">
+      <Header />
+      <UploadImage />
+      <TranslatedText />
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+export default App;
