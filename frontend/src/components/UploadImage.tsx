@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 function UploadImage() {
   const inputRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | null>(null)
+  const [preview, setPreview] = useState<string>()
 
   // For reference only so that button will prompt file when click.
   const uploadImage = () => {
@@ -13,19 +14,30 @@ function UploadImage() {
 
   const inputOnChange = (e: any) => {
     setFile(e.target.files[0])
+    setPreview(URL.createObjectURL(e.target.files[0]))
   }
 
   // Removes the image and the translated text.
   function handleReset() {
     setFile(null)
+    setPreview("")
+
+    // Clear also the reference. 
+    if (inputRef.current) {
+      inputRef.current.value = ""
+    }
   }
 
   return (
     <>
       <div className="hidden md:block h-96 w-full bg-primary-gradient p-0.5 rounded-lg">
-        <div className="bg-primary-bg h-full w-full rounded-md text-center p-2">
+        <div className="bg-primary-bg h-full w-full rounded-md text-center p-2 space-y-5">
           <div className="text-2xl font-semibold">Preview Uploaded Image</div>
-          <div className="flex flex-col h-[93%] justify-center text-3xl">No Image Uploaded</div>
+          {preview ? (
+            <img src={preview} className="mx-auto object-contain h-72" />
+          ) : (
+            <div className="text-3xl mt-32">No Image Uploaded</div>
+          )}
         </div>
       </div>
       <div className="space-y-5 md:flex md:space-y-0 md:items-center md:space-x-10">
@@ -36,7 +48,7 @@ function UploadImage() {
               <div>Upload image here</div>
             </div>
             {/* For custom file input button. */}
-            <input type="file" className="hidden" ref={inputRef} onChange={(e) => inputOnChange(e)} />
+            <input type="file" className="hidden" ref={inputRef} onChange={(e) => inputOnChange(e)} accept=".png, .jpg, .jpeg" />
             <div className="flex flex-col items-center space-y-1">
               {/* File name will display here. */}
               <div>{file?.name}</div>
