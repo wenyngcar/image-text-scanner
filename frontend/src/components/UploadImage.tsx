@@ -1,11 +1,13 @@
 import uploadIcon from "../assets/icons/upload-primary.svg";
 import { Button } from "./ui/button";
 import { useRef, useState } from "react";
+import LoadingScreen from "./LoadingScreen";
 
 function UploadImage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>();
+  const [loading, setLoading] = useState(false);
 
   // For reference only so that button will prompt file when click.
   const uploadImage = () => {
@@ -26,6 +28,15 @@ function UploadImage() {
     if (inputRef.current) {
       inputRef.current.value = "";
     }
+  }
+
+  // Function when clicking the translate text button.
+  function handleTranslate() {
+    setLoading(true);
+    // Intentionally display the loading screen for 3 seconds for better UI/UX.
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
   }
 
   return (
@@ -70,8 +81,9 @@ function UploadImage() {
             please convert them before uploading.
           </div>
           <div className="flex flex-col space-y-4">
-            <Button size={"lg"} className="text-lg">
+            <Button size={"lg"} className="text-lg" onClick={handleTranslate}>
               Translate Text
+              {loading && <LoadingScreen />}
             </Button>
             <Button size={"lg"} className="text-lg" onClick={handleReset}>
               Reset

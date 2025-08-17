@@ -9,7 +9,7 @@ function Header() {
           Online Image Text Translator
         </div>
         <div className="text-gray-400 text-2xl">
-          Translate foreign language text in images into English language.
+          Translate foreign alphabet text in images into English language.
         </div>
       </div>
     </div>
