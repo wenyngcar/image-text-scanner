@@ -7,7 +7,7 @@ function UploadImage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   // For reference only so that button will prompt file when click.
   const uploadImage = () => {
@@ -32,11 +32,11 @@ function UploadImage() {
 
   // Function when clicking the translate text button.
   function handleTranslate() {
-    setLoading(true)
+    setLoading(true);
     // Intentionally display the loading screen for 3 seconds for better UI/UX.
     setTimeout(() => {
-      setLoading(false)
-    }, 3000)
+      setLoading(false);
+    }, 3000);
   }
 
   return (

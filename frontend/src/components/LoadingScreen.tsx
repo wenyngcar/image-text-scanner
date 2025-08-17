@@ -1,4 +1,4 @@
-import spinnerIcon from "../assets/icons/spinner.svg"
+import spinnerIcon from "../assets/icons/spinner.svg";
 
 function LoadingScreen() {
   return (
@@ -8,7 +8,7 @@ function LoadingScreen() {
         <span> Loading... </span>
       </div>
     </div>
-  )
+  );
 }
 
-export default LoadingScreen
+export default LoadingScreen;
