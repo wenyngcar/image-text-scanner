@@ -29,11 +29,6 @@ readers = {lang: easyocr.Reader(codes)
            for lang, codes in supported_languages.items()}
 
 
-@app.get('/')
-def read_root():
-    return {"message": "Hello World"}
-
-
 @app.post('/upload-image')
 async def upload_image(image: UploadFile):
 
@@ -54,11 +49,12 @@ async def upload_image(image: UploadFile):
 
     # Get the language with the highest score
     best_lang = max(scores, key=scores.get)
-    best_score = scores[best_lang]
+    # best_score = scores[best_lang]
+
+    # Join into a single paragraph
+    best_paragraph = " ".join(texts[best_lang])
 
     return {
-        "message": "success",
-        "language": best_lang,
-        "score": best_score,
-        "output": texts[best_lang]
+        "language": best_lang.capitalize(),
+        "text": best_paragraph
     }
