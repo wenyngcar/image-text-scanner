@@ -4,7 +4,7 @@ function Header() {
   return (
     <div className="space-y-5">
       <img src={logo} />
-      <div className="space-y-3">
+      <div className="space-y-3 md:text-center">
         <div className="text-5xl font-semibold">
           Online Image Text Translator
         </div>
