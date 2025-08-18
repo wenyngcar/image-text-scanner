@@ -2,6 +2,7 @@ import uploadIcon from "../assets/icons/upload-primary.svg";
 import { Button } from "./ui/button";
 import { useRef, useState } from "react";
 import LoadingScreen from "./LoadingScreen";
+import api from "@/api/api";
 
 function UploadImage() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,13 +31,24 @@ function UploadImage() {
     }
   }
 
+  function delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   // Function when clicking the translate text button.
-  function handleTranslate() {
+  async function handleTranslate() {
     setLoading(true);
     // Intentionally display the loading screen for 3 seconds for better UI/UX.
-    setTimeout(() => {
+
+    try {
+      const res = await api.get("/");
+      console.log(res.data);
+      await delay(3000);
+    } catch (error) {
+      console.error(`Error handling data: ${error}`);
+    } finally {
       setLoading(false);
-    }, 3000);
+    }
   }
 
   return (
