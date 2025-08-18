@@ -11,7 +11,7 @@ function UploadImage() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>();
   const [loading, setLoading] = useState(false);
-  const [detectedText, setDetectedText] = useState<detectedText>()
+  const [detectedText, setDetectedText] = useState<detectedText>();
 
   // For reference only so that button will prompt file when click.
   const uploadImage = () => {
@@ -39,16 +39,16 @@ function UploadImage() {
     setLoading(true);
 
     // Wrap in formdata instead of raw file because backend expects formdata.
-    const formData = new FormData()
+    const formData = new FormData();
     if (file) {
       // First argument must match the key in the backend.
-      formData.append("image", file)
+      formData.append("image", file);
     }
 
     try {
-      const res = await api.post('/upload-image', formData)
+      const res = await api.post("/upload-image", formData);
       // console.log(res.data);
-      setDetectedText(res.data)
+      setDetectedText(res.data);
     } catch (error) {
       console.error(`Error handling data: ${error}`);
     } finally {
@@ -95,8 +95,8 @@ function UploadImage() {
           </div>
           <div className="flex flex-col justify-between space-y-2 md:basis-1/3">
             <div className="text-gray-400">
-              Accepted format: .png, .jpg, .jpeg. If your image is not compatible,
-              please convert them before uploading.
+              Accepted format: .png, .jpg, .jpeg. If your image is not
+              compatible, please convert them before uploading.
             </div>
             <div className="flex flex-col space-y-4">
               <Button size={"lg"} className="text-lg" onClick={handleTranslate}>
@@ -110,7 +110,10 @@ function UploadImage() {
           </div>
         </div>
       </div>
-      <TranslatedText language={detectedText?.language} text={detectedText?.text} />
+      <TranslatedText
+        language={detectedText?.language}
+        text={detectedText?.text}
+      />
     </>
   );
 }

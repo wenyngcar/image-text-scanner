@@ -1,4 +1,4 @@
 export type detectedText = {
-  language?: string
-  text?: string
-}
+  language?: string;
+  text?: string;
+};
