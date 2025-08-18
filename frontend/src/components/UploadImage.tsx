@@ -32,7 +32,7 @@ function UploadImage() {
   }
 
   function delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   // Function when clicking the translate text button.
@@ -41,13 +41,13 @@ function UploadImage() {
     // Intentionally display the loading screen for 3 seconds for better UI/UX.
 
     try {
-      const res = await api.get('/')
-      console.log(res.data)
-      await delay(3000)
+      const res = await api.get("/");
+      console.log(res.data);
+      await delay(3000);
     } catch (error) {
-      console.error(`Error handling data: ${error}`)
+      console.error(`Error handling data: ${error}`);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
