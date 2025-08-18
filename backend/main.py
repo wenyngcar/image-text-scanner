@@ -1,6 +1,11 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+import easyocr
+from languages import supported_languages
+from PIL import Image
+from io import BytesIO
+import numpy as np
+
 
 app = FastAPI()
 
@@ -19,7 +24,41 @@ app.add_middleware(
     allow_headers=['*']
 )
 
+# Reader instace from easyocr.
+readers = {lang: easyocr.Reader(codes)
+           for lang, codes in supported_languages.items()}
+
 
 @app.get('/')
 def read_root():
     return {"message": "Hello World"}
+
+
+@app.post('/upload-image')
+async def upload_image(image: UploadFile):
+
+    contents = await image.read()
+    im = Image.open(BytesIO(contents))
+    im_array = np.array(im)
+
+    scores = {}  # store cumulative scores per language
+    texts = {}
+
+    for lang, reader in readers.items():
+        output = reader.readtext(im_array)
+        score = sum([read[2] for read in output])
+        text_output = [read[1] for read in output]
+
+        scores[lang] = score
+        texts[lang] = text_output
+
+    # Get the language with the highest score
+    best_lang = max(scores, key=scores.get)
+    best_score = scores[best_lang]
+
+    return {
+        "message": "success",
+        "language": best_lang,
+        "score": best_score,
+        "output": texts[best_lang]
+    }
