@@ -8,7 +8,7 @@ supported_languages = {
     "french": ["fr", "en"],
     "german": ["de", "en"],
     "italian": ["it", "en"],
-    "dutch": ["nl", "en"],
+    "spanish": ["es", "en"],
     "portuguese": ["pt", "en"],
     "arabic": ["ar", "en"],
     "russian": ["ru", "en"],
