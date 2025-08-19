@@ -47,7 +47,7 @@ function UploadImage() {
 
     try {
       const res = await api.post("/upload-image", formData);
-      // console.log(res.data);
+      console.log(res.data);
       setDetectedText(res.data);
     } catch (error) {
       console.error(`Error handling data: ${error}`);
