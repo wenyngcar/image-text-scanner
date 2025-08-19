@@ -1,5 +1,4 @@
 function UploadImage({ uploadedImage }: { uploadedImage?: string }) {
-
   return (
     <div className="hidden md:block h-96 w-full bg-primary-gradient p-0.5 rounded-lg xl:h-[500px]">
       <div className="bg-primary-bg h-full w-full rounded-md text-center p-2 space-y-5">

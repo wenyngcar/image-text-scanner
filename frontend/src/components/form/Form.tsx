@@ -94,7 +94,11 @@ function Form() {
                 compatible, please convert them before uploading.
               </div>
               <div className="flex flex-col space-y-4">
-                <Button size={"lg"} className="text-lg" onClick={handleTranslate}>
+                <Button
+                  size={"lg"}
+                  className="text-lg"
+                  onClick={handleTranslate}
+                >
                   Translate Text
                   {loading && <LoadingScreen />}
                 </Button>

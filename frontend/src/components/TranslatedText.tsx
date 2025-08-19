@@ -7,7 +7,9 @@ function TranslatedText({ language, text }: detectedText) {
         <div className="text-2xl">
           {language ? `Detected Language: ${language}` : "Detected Language:"}
         </div>
-        <div className="whitespace-pre-line">{text ? text : "Text will display here."}</div>
+        <div className="whitespace-pre-line">
+          {text ? text : "Text will display here."}
+        </div>
       </div>
     </div>
   );
