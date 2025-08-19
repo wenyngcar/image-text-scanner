@@ -24,37 +24,40 @@ app.add_middleware(
     allow_headers=['*']
 )
 
-# Reader instace from easyocr.
-readers = {lang: easyocr.Reader(codes)
-           for lang, codes in supported_languages.items()}
+
+# Store the readers here after use. (Lazy Loading/Caching Method)
+readers: dict[str, easyocr.Reader] = {}
+
+
+def get_reader(lang: str):
+    if lang not in readers:
+        readers[lang] = easyocr.Reader(supported_languages[lang])
+    return readers[lang]
 
 
 @app.post('/upload-image')
 async def upload_image(image: UploadFile):
 
+    # Read the stream of bytes and stores the actual binary content of the image.
     contents = await image.read()
+
+    # Open using PIL. BytesIO return image object that PIL can read.
     im = Image.open(BytesIO(contents))
+
+    # EasyOCR expects an image in NumPy array format (RGB pixel values).
     im_array = np.array(im)
 
-    scores = {}  # store cumulative scores per language
-    texts = {}
-
-    for lang, reader in readers.items():
+    scores, texts = {}, {}
+    # Iterate the supported_languages and test for every easyocr reader instance.
+    for lang in supported_languages:
+        reader = get_reader(lang)  # cached after first use
         output = reader.readtext(im_array)
-        score = sum([read[2] for read in output])
-        text_output = [read[1] for read in output]
+        scores[lang] = sum([read[2] for read in output])
+        texts[lang] = [read[1] for read in output]
 
-        scores[lang] = score
-        texts[lang] = text_output
-
-    # Get the language with the highest score
+    # Scan the highest in scores and get the key (the language).
     best_lang = max(scores, key=scores.get)
-    # best_score = scores[best_lang]
-
-    # Join into a single paragraph
-    best_paragraph = " ".join(texts[best_lang])
-
     return {
-        "language": best_lang.capitalize(),
-        "text": best_paragraph
+        "language": best_lang,
+        "text": "\n".join(texts[best_lang]),
     }
