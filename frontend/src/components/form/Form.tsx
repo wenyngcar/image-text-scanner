@@ -99,7 +99,7 @@ function Form() {
                   className="text-lg"
                   onClick={handleTranslate}
                 >
-                  Translate Text
+                  Scan Image
                   {loading && <LoadingScreen />}
                 </Button>
                 <Button size={"lg"} className="text-lg" onClick={handleReset}>

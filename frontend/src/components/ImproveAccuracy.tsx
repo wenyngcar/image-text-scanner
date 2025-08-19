@@ -2,7 +2,7 @@ function ImproveAccuracy() {
   return (
     <div className="text-gray-400">
       <div className="text-3xl font-semibold">
-        Improve the Translator's Detecting Accuracy
+        Improve the Model's Detecting Accuracy
       </div>
       <ul className="p-5 list-decimal space-y-2 text-lg">
         <li>
