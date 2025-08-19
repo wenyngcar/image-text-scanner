@@ -3,13 +3,13 @@ import logo from "../assets/logo/logo.svg";
 function Header() {
   return (
     <div className="space-y-5">
-      <img src={logo} />
+      <a href="/">
+        <img src={logo} />
+      </a>
       <div className="space-y-3 md:text-center">
-        <div className="text-5xl font-semibold">
-          Online Image Text Translator
-        </div>
+        <div className="text-5xl font-semibold">Online Image Text Scanner</div>
         <div className="text-gray-400 text-2xl">
-          Translate foreign alphabet text in images into English language.
+          Extracts text from images containing foreign alphabets.
         </div>
       </div>
     </div>
