@@ -58,6 +58,5 @@ async def upload_image(image: UploadFile):
     # Scan the highest in scores and get the key (the language).
     best_lang = max(scores, key=scores.get)
     return {
-        "language": best_lang,
         "text": "\n".join(texts[best_lang]),
     }
