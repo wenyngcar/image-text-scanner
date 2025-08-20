@@ -14,6 +14,7 @@ function Form() {
   const [preview, setPreview] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [detectedText, setDetectedText] = useState<detectedText>();
+  const [isError, setIsError] = useState(false)
 
   // For reference only so that button will prompt file when click.
   const uploadImage = () => {
@@ -21,6 +22,7 @@ function Form() {
   };
 
   const inputOnChange = (e: any) => {
+    if (isError) { setIsError(false) }
     setFile(e.target.files[0]);
     setPreview(URL.createObjectURL(e.target.files[0]));
   };
@@ -29,6 +31,8 @@ function Form() {
   function handleReset() {
     setFile(null);
     setPreview("");
+    setIsError(false)
+    setDetectedText(undefined)
 
     // Clear also the reference.
     if (inputRef.current) {
@@ -52,6 +56,7 @@ function Form() {
       // console.log(res.data);
       setDetectedText(res.data);
     } catch (error) {
+      if (!file) { setIsError(true) }
       console.error(`Error handling data: ${error}`);
     } finally {
       setLoading(false);
@@ -93,6 +98,7 @@ function Form() {
                 Accepted format: .png, .jpg, .jpeg. If your image is not
                 compatible, please convert them before uploading.
               </div>
+              {isError && <div className="text-red-500 text-center">❗No image uploaded.</div>}
               <div className="flex flex-col space-y-4">
                 <Button
                   size={"lg"}

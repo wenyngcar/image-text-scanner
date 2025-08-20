@@ -3,7 +3,7 @@ import logo from "../assets/logo/logo.svg";
 function Header() {
   return (
     <div className="space-y-5">
-      <a href="/">
+      <a href="/" className="inline-block">
         <img src={logo} />
       </a>
       <div className="space-y-3 md:text-center">
