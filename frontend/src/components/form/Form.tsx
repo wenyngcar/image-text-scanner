@@ -117,7 +117,6 @@ function Form() {
         </div>
       </div>
       <TranslatedText
-        language={detectedText?.language}
         text={detectedText?.text}
       />
     </>
