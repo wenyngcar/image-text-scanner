@@ -19,7 +19,7 @@ const languages = [
 function SupportedLanguages() {
   return (
     <div className="mb-20 text-gray-400">
-      <p className="mb-3">Supported Writing System:</p>
+      <p className="mb-3">Supported writing system:</p>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
         {languages.map(({ flag, name }) => (
           <div key={name} className="flex items-center space-x-2">
