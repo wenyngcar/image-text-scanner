@@ -12,6 +12,7 @@ app = FastAPI()
 # URL of the frontend.
 # Replace if deployed.
 origins = [
+    "https://image-text-scanner-two.vercel.app",
     "http://localhost:5173"
 ]
 
