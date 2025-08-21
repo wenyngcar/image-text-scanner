@@ -1,10 +1,10 @@
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, Query
 from fastapi.middleware.cors import CORSMiddleware
 import easyocr
-from languages import supported_languages
 from PIL import Image
 from io import BytesIO
 import numpy as np
+from typing import List
 
 
 app = FastAPI()
@@ -12,7 +12,8 @@ app = FastAPI()
 # URL of the frontend.
 # Replace if deployed.
 origins = [
-    "https://image-text-scanner-two.vercel.app"
+    "https://image-text-scanner-two.vercel.app",
+    "http://localhost:5173"
 ]
 
 # Allows the send and receive of request from the specified port(origins).
@@ -25,18 +26,14 @@ app.add_middleware(
 )
 
 
-# Store the readers here after use. (Lazy Loading/Caching Method)
-readers: dict[str, easyocr.Reader] = {}
-
-
-def get_reader(lang: str):
-    if lang not in readers:
-        readers[lang] = easyocr.Reader(supported_languages[lang])
-    return readers[lang]
+# For deployment purposes only. To verify for successful deployment.
+@app.get('/')
+def read_root():
+    return {"message": "success"}
 
 
 @app.post('/upload-image')
-async def upload_image(image: UploadFile):
+async def upload_image(image: UploadFile, recognizer: List[str] = Query(...)):
 
     # Read the stream of bytes and stores the actual binary content of the image.
     contents = await image.read()
@@ -47,16 +44,10 @@ async def upload_image(image: UploadFile):
     # EasyOCR expects an image in NumPy array format (RGB pixel values).
     im_array = np.array(im)
 
-    scores, texts = {}, {}
-    # Iterate the supported_languages and test for every easyocr reader instance.
-    for lang in supported_languages:
-        reader = get_reader(lang)  # cached after first use
-        output = reader.readtext(im_array)
-        scores[lang] = sum([read[2] for read in output])
-        texts[lang] = [read[1] for read in output]
-
-    # Scan the highest in scores and get the key (the language).
-    best_lang = max(scores, key=scores.get)
+    # Initialize the reader with specified recognizer.
+    reader = easyocr.Reader(recognizer)
+    result = reader.readtext(im_array, detail=0)
+    paragraph = "\n".join(result)
     return {
-        "text": "\n".join(texts[best_lang]),
+        "text": paragraph,
     }
