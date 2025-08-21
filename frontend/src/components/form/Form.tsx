@@ -7,6 +7,13 @@ import TranslatedText from "../TranslatedText";
 import type { detectedText } from "@/types/detectedText";
 import UploadImage from "../UploadImage";
 import SupportedLanguages from "../SupportedLanguages";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 function Form() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -15,6 +22,7 @@ function Form() {
   const [loading, setLoading] = useState(false);
   const [detectedText, setDetectedText] = useState<detectedText>();
   const [isError, setIsError] = useState(false);
+  const [recognizer, setRecognizer] = useState<string>()
 
   // For reference only so that button will prompt file when click.
   const uploadImage = () => {
@@ -42,6 +50,11 @@ function Form() {
     }
   }
 
+  function handleSelectValue(value: string) {
+    setRecognizer(value)
+    console.log(value)
+  }
+
   // Function when clicking the translate text button.
   async function handleTranslate() {
     setLoading(true);
@@ -54,7 +67,7 @@ function Form() {
     }
 
     try {
-      const res = await api.post("/upload-image", formData);
+      const res = await api.post(`/upload-image?recognizer=${recognizer}`, formData);
       // console.log(res.data);
       setDetectedText(res.data);
     } catch (error) {
@@ -108,6 +121,21 @@ function Form() {
                 </div>
               )}
               <div className="flex flex-col space-y-4">
+                <Select onValueChange={(value) => handleSelectValue(value)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Recognizer" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ar">Ararbic</SelectItem>
+                    <SelectItem value="ch_tra">Chinese Traditional</SelectItem>
+                    <SelectItem value="ch_sim">Chinese Simplified</SelectItem>
+                    <SelectItem value="en">Latin Alphabet</SelectItem>
+                    <SelectItem value="ja">Kanji, Hiragana, Katakana</SelectItem>
+                    <SelectItem value="ko">Hangul</SelectItem>
+                    <SelectItem value="ru">Cyrillic</SelectItem>
+                    <SelectItem value="th">Thai</SelectItem>
+                  </SelectContent>
+                </Select>
                 <Button
                   size={"lg"}
                   className="text-lg"
