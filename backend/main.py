@@ -12,7 +12,8 @@ app = FastAPI()
 # URL of the frontend.
 # Replace if deployed.
 origins = [
-    "https://image-text-scanner-two.vercel.app"
+    "https://image-text-scanner-two.vercel.app",
+    "http://localhost:5173"
 ]
 
 # Allows the send and receive of request from the specified port(origins).
