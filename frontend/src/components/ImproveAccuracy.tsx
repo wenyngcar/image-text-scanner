@@ -16,9 +16,8 @@ function ImproveAccuracy() {
         </li>
         <li>
           Avoid uploading images containing multiple foreign alphabets. The
-          model can handle a foreign alphabet mixed with English (e.g., Arabic
-          and English) but may not work well with combinations like Arabic and
-          Korean, or Chinese and Korean.
+          model may not work well with combinations like Arabic and
+          Korean, or Chinese and Japanese.
         </li>
       </ul>
     </div>
