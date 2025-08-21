@@ -1,10 +1,7 @@
 import uploadIcon from "@/assets/icons/upload-primary.svg";
 import { Button } from "../ui/button";
-import { useRef, useState } from "react";
 import LoadingScreen from "../LoadingScreen";
-import api from "@/api/api";
 import TranslatedText from "../TranslatedText";
-import type { detectedText } from "@/types/detectedText";
 import UploadImage from "../UploadImage";
 import SupportedLanguages from "../SupportedLanguages";
 import {
@@ -14,71 +11,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useImageTranslator } from "@/hooks/useImageScanner";
 
 function Form() {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string>();
-  const [loading, setLoading] = useState(false);
-  const [detectedText, setDetectedText] = useState<detectedText>();
-  const [isError, setIsError] = useState(false);
-  const [recognizer, setRecognizer] = useState<string>()
-
-  // For reference only so that button will prompt file when click.
-  const uploadImage = () => {
-    inputRef.current?.click();
-  };
-
-  const inputOnChange = (e: any) => {
-    if (isError) {
-      setIsError(false);
-    }
-    setFile(e.target.files[0]);
-    setPreview(URL.createObjectURL(e.target.files[0]));
-  };
-
-  // Removes the image and the translated text.
-  function handleReset() {
-    setFile(null);
-    setPreview("");
-    setIsError(false);
-    setDetectedText(undefined);
-
-    // Clear also the reference.
-    if (inputRef.current) {
-      inputRef.current.value = "";
-    }
-  }
-
-  function handleSelectValue(value: string) {
-    setRecognizer(value)
-    console.log(value)
-  }
-
-  // Function when clicking the translate text button.
-  async function handleTranslate() {
-    setLoading(true);
-
-    // Wrap in formdata instead of raw file because backend expects formdata.
-    const formData = new FormData();
-    if (file) {
-      // First argument must match the key in the backend.
-      formData.append("image", file);
-    }
-
-    try {
-      const res = await api.post(`/upload-image?recognizer=${recognizer}`, formData);
-      // console.log(res.data);
-      setDetectedText(res.data);
-    } catch (error) {
-      if (!file) {
-        setIsError(true);
-      }
-      console.error(`Error handling data: ${error}`);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const {
+    inputRef,
+    file,
+    preview,
+    loading,
+    detectedText,
+    isError,
+    uploadImage,
+    inputOnChange,
+    handleReset,
+    handleSelectValue,
+    handleTranslate,
+  } = useImageTranslator();
 
   return (
     <>
@@ -107,6 +55,11 @@ function Form() {
                   <Button size={"lg"} className="text-lg" onClick={uploadImage}>
                     Upload Image
                   </Button>
+                  {(isError && !file) && (
+                    <div className="text-red-500 text-center">
+                      ❗No image uploaded.
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -115,11 +68,6 @@ function Form() {
                 Accepted format: .png, .jpg, .jpeg. If your image is not
                 compatible, please convert them before uploading.
               </div>
-              {isError && (
-                <div className="text-red-500 text-center">
-                  ❗No image uploaded.
-                </div>
-              )}
               <div className="flex flex-col space-y-4">
                 <Select onValueChange={(value) => handleSelectValue(value)}>
                   <SelectTrigger className="w-full">
@@ -136,6 +84,12 @@ function Form() {
                     <SelectItem value="th">Thai</SelectItem>
                   </SelectContent>
                 </Select>
+                {(isError) && (
+                  <div className="text-red-500 text-center">
+                    ❗Please select a recognizer.
+                  </div>
+                )}
+
                 <Button
                   size={"lg"}
                   className="text-lg"
